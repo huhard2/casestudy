@@ -1,25 +1,6 @@
 import subprocess, sys
 from flask import Flask, jsonify
 
-"""
-@auth.get_password
-def get_password(username):
-	if username == 'joey':
-		return 'ang'
-	return None
-
-	@auth.error_handler
-	def unauthorised():
-		return make_response(jsonify( {'error': 'Unauthorised access' } ),
-
-	@cs.error_handler(400)
-	def not_found(error):
-		return make_response(jsonify { 'error' : 'Bad Request' } ), 400):
-	
-	@cs.errorhandler(404)
-	def not_found(error):
-		return make_response(jsonify {'error' : 'Not Found' } ),404)
-"""
 def add_bridge(bridge):
 	test0 = subprocess.call(['sudo', 'ovs-vsctl', 'add-br', bridge])
 
@@ -42,4 +23,20 @@ def del_vlan(interface):
 def update_vlan(interface,tag):
 	test6 = subprocess.call(['sudo','ovs-vsctl','set','port',interface, tag])
 
+def show_vlan():
+	test7 = subprocess.call(['sudo','ovs-vsctl','show'])
+	return test7
+
+def add_vxlan(interface,vxlan):
+	test9 = subprocess.call(['sudo', 'ovs-vsctl','add-port', interface, vxlan])
+
+def add_route(ip_preflix,bridge,gateway):
+	test8 = subprocess.call(['sudo','ovs-appctl','ovs/route/add', ip_preflix , bridge , gateway ])
+
+def show_route():
+	test10 = subprocess.call(['sudo','ovs-appctl','ovs/route/show'])
+	return test10
+
+def del_route(ip_preflix):
+	test11 = subprocess.call(['sudo','ovs-appctl' ,'ovs/route/del' , ip_preflix])
 
