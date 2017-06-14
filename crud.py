@@ -46,6 +46,14 @@ def delbr(bridge):
 	app1.del_br(bridge)
 	return jsonify({'Bridge Deleted' : bridge}), 201
 
+@call.route('/updatebridge/<bridge>', methods=['PUT'])
+@auth.login_required
+def update_bridge(bridge):
+        options = request.json['options']
+        app1.update_bridge(bridge,options)
+	return jsonify({'bridge': bridge,
+			'options': options}), 201
+
 @call.route('/addinterface', methods=['POST'])
 @auth.login_required
 def addport():
@@ -86,6 +94,36 @@ def showvlan():
         bridge = app1.show_bridge()
         return jsonify ({'bridge' : bridge.splitlines()})
 
+@call.route('/showtrunk', methods=['GET'])
+@auth.login_required
+def showtrunk():
+	bridge = app1.show_bridge()
+	return jsonify ({'bridge' : bridge.splitlines()})
+
+@call.route('/addtrunk', methods=['POST'])
+@auth.login_required
+def addtrunk():
+        interface = request.json['interface']
+        trunk = request.json['trunk']
+        app1.add_trunk(interface,trunk)
+        return jsonify ({'interface' : interface,
+                        'trunk' : trunk}), 201
+
+@call.route('/updatetrunk/<interface>', methods=['PUT'])
+@auth.login_required
+def updatetrunk(interface):
+        trunk = request.json['trunk']
+        app1.update_trunk(interface, trunk)
+        return jsonify({'Trunk Updated' : interface ,
+                        'trunk' : trunk}), 201
+
+@call.route('/deltrunk/<interface>', methods=['DELETE'])
+@auth.login_required
+def deltrunk(interface):
+        app1.del_trunk(interface)
+        return jsonify({'Trunk Deleted' : interface}),201
+
+
 @call.route('/addvxlan', methods=['GET'])
 @auth.login_required
 def addvxlan():
@@ -104,9 +142,8 @@ def addroute():
         app1.add_route(ip_preflix,interface,gateway)
         return jsonify ({'ip_preflix' : ip_preflix,
 			'bridge' : bridge,
-
-
                         'gateway' : gateway}), 201
+
 @call.route('/showroute', methods=['GET'])
 @auth.login_required
 def showroute():

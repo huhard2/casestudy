@@ -11,6 +11,9 @@ def show_bridge():
 def del_br(bridge):
 	test2 = subprocess.call(['sudo','ovs-vsctl','del-br', bridge])
 
+def update_bridge(bridge, options):
+        subprocess.call(['sudo', 'ovs-vsctl', 'set', 'Bridge', bridge, options])
+
 def add_interface(bridge,interface):
 	test3 = subprocess.call(['sudo','ovs-vsctl','add-port', bridge, interface])
 
@@ -26,6 +29,19 @@ def update_vlan(interface,tag):
 def show_vlan():
 	test7 = subprocess.call(['sudo','ovs-vsctl','show'])
 	return test7
+
+def show_trunk():
+	test12 = subprocess.call(['sudo','ovs-vsctl','show'])
+	return test12
+
+def add_trunk(interface,trunk):
+	test13 = subprocess.call(['sudo','ovs-vsctl','set','port', interface, trunk])
+
+def update_trunk(interface,trunk):
+	test14 = subprocess.call(['sudo','ovs-vsctl','set','port', interface, trunk])
+
+def del_trunk(interface):
+        test15 = subprocess.call(['sudo','ovs-vsctl','del-port', interface])
 
 def add_vxlan(interface,vxlan):
 	test9 = subprocess.call(['sudo', 'ovs-vsctl','add-port', interface, vxlan])
